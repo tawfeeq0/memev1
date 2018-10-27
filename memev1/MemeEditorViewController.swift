@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate {
+class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate {
 
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var bottomTextField: UITextField!
@@ -43,21 +43,20 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         textField.textAlignment = .center
     }
 
-    
-    
-    @IBAction func pickImage(_ sender: Any) {
-        
+    func pickAnImage(from source: UIImagePickerController.SourceType) {
+        // TODO:- code to pick an image from source
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
+        pickerController.sourceType = source
         present(pickerController,animated: true,completion: nil)
     }
     
+    @IBAction func pickImage(_ sender: Any) {
+        pickAnImage(from: .photoLibrary)
+    }
+    
     @IBAction func pickImageFromCamera(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .camera
-        present(pickerController,animated: true,completion: nil)
+        pickAnImage(from: .camera)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -76,9 +75,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -105,15 +101,24 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     func generateMemedImage() -> UIImage {
     
         // Render view to an image
-        topToolbar.isHidden = true
-        bottomToolbar.isHidden = true
+        hideUnhideToolbar()
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        topToolbar.isHidden = false
-        bottomToolbar.isHidden = false
+        hideUnhideToolbar()
         return memedImage
+    }
+    
+    func hideUnhideToolbar(){
+        if (topToolbar.isHidden && bottomToolbar.isHidden){
+            topToolbar.isHidden = false
+            bottomToolbar.isHidden = false
+        }
+        else{
+            topToolbar.isHidden = true
+            bottomToolbar.isHidden = true
+        }
     }
     
     @IBAction func Reset(_ sender: Any) {

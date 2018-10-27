@@ -8,14 +8,14 @@
 
 import UIKit
 
-extension ViewController{
+extension MemeEditorViewController{
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        view.frame.origin.y = -getKeyboardHeight(notification)
+        view.frame.origin.y = getKeyboardHeight(notification) * (-1)
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        view.frame.origin.y += getKeyboardHeight(notification)
+        view.frame.origin.y = 0
     }
     
     func subscribeToKeyboardNotifications() {
