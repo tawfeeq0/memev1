@@ -15,9 +15,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var shareButton: UIBarButtonItem!
-    
     @IBOutlet weak var topToolbar: UIToolbar!
-    
     @IBOutlet weak var bottomToolbar: UIToolbar!
     
     let memeTextAttributes:[NSAttributedString.Key : Any] = [
